@@ -68,3 +68,14 @@ test('labels come from translateName; clearing the picker stays allowed', () => 
   assert.equal(option.label, 'T:paiement');
   assert.equal(isSelectableOption(null), true);
 });
+
+test('creatableOnly keeps the categories of creatableAlso selectable', () => {
+  const options = buildCategoryOptions(hierarchy, {
+    creatableOnly: true, creatableAlso: ['violence_vbg', 'violence_vbg > viol'],
+  });
+  assert.deepEqual(values(options), [
+    'violence_vbg', 'violence_vbg > viol', 'mixed', 'mixed > open_child', 'paiement',
+  ]);
+  assert.equal(options[0].selectable, true);
+  assert.equal(options[0].children[0].selectable, true);
+});
